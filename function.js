@@ -1,4 +1,4 @@
-var number = prompt('Digite um número inteiro: ');
+const number = prompt('Digite um número inteiro: ');
 
 var sum = 0;
 
