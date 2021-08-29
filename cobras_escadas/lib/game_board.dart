@@ -46,7 +46,7 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
   void _play() {
     setState(() {
       if (aux == -1) {
-        showDialog(context: context, builder: (_) => WinDialog(winner));
+        showDialog(context: context, builder: (_) => OverDialog());
       } else {
         int _test(int player, int turn, int sum, obstacles) {
           aux++;
@@ -60,6 +60,7 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
           }
           if (obstacles.containsKey(player)) {
             player = obstacles[player];
+            showDialog(context: context, builder: (_) => ObstacleDialog(turn));
           }
           return player;
         }
@@ -110,8 +111,8 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
               Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: Container(
-                  child: Image.asset(
-                    'board.jpg',
+                  child: Image.network(
+                    'https://raw.githubusercontent.com/Nayent/Escribo/main/cobras_escadas/assets/board.jpg',
                     height: MediaQuery.of(context).size.height * (2 / 3),
                   ),
                 ),
@@ -131,8 +132,8 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
                               primary: Color(0xff333951),
                               textStyle: GoogleFonts.quicksand(
                                   fontSize: 24.0, color: Colors.white))),
-                      Image.asset(
-                        'dice$dice1.png',
+                      Image.network(
+                        'https://raw.githubusercontent.com/Nayent/Escribo/main/cobras_escadas/assets/dice$dice1.png',
                         height: 50,
                       ),
                       Center(
@@ -140,12 +141,14 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text('Soma dos dados: $sum'),
-                              Text('Posição do jogador 1: $positionPlayer1'),
-                              Text('Posição do jogador 2: $positionPlayer2'),
+                              Text(
+                                  'Jogador 1 está na posição $positionPlayer1'),
+                              Text(
+                                  'Jogador 2 está na posição $positionPlayer2'),
                             ]),
                       ),
-                      Image.asset(
-                        'dice$dice2.png',
+                      Image.network(
+                        'https://raw.githubusercontent.com/Nayent/Escribo/main/cobras_escadas/assets/dice$dice2.png',
                         height: 50,
                       ),
                       ElevatedButton(
@@ -179,6 +182,37 @@ class WinDialog extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         'Jogador $jogador Venceu!',
+        style: TextStyle(fontSize: 32),
+      ),
+    ));
+  }
+}
+
+class OverDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        'O jogo acabou!',
+        style: TextStyle(fontSize: 32),
+      ),
+    ));
+  }
+}
+
+class ObstacleDialog extends StatelessWidget {
+  int jogador;
+
+  ObstacleDialog(this.jogador);
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        'O jogagor $jogador caiu em um obstáculo!',
         style: TextStyle(fontSize: 32),
       ),
     ));
