@@ -23,3 +23,4 @@ Para rodar o arquivo .js, é possível rodar diretamente no console do Chrome, a
 
 Para a segunda etapa, foi feito um web do jogo "Cobras e Escadas", no qualFoi realizado toda a lógica necessária, porém faltando partes do front.
 Para acessar o projeto entre no link abaixo.
+https://cobrasescadas-5685b.web.app
