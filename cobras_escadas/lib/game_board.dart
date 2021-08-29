@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -9,13 +10,15 @@ class CobrasEscadas extends StatefulWidget {
 }
 
 class _CobrasEscadasState extends State<CobrasEscadas> {
-  int dice1 = 0;
-  int dice2 = 0;
+  int dice1 = 1;
+  int dice2 = 1;
   int sum = 0;
   int aux = 0;
   int positionPlayer1 = 0;
   int positionPlayer2 = 0;
   int winner = 0;
+  String dice1Image = 'dice1.png';
+  String dice2Image = 'dice1.png';
   var obstacles = {
     2: 38,
     7: 14,
@@ -74,33 +77,92 @@ class _CobrasEscadasState extends State<CobrasEscadas> {
     });
   }
 
+  void _restart() {
+    setState(() {
+      dice1 = 1;
+      dice2 = 1;
+      sum = 0;
+      aux = 0;
+      positionPlayer1 = 0;
+      positionPlayer2 = 0;
+      winner = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Dado 1: $dice1'),
-            Text('Dado 2: $dice2'),
-            Text('Soma dos dados: $sum'),
-            Text('Posição do jogador 1: $positionPlayer1'),
-            Text('Posição do jogador 2: $positionPlayer2'),
-            Text('aux: $aux'),
-          ]),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Colors.blue, onPrimary: Colors.white, elevation: 5),
-            autofocus: true,
-            onPressed: () {
-              _play();
-            },
-            child: const Text('Jogar', style: TextStyle(fontSize: 20)),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.grey[100],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Text(
+                  'Cobras e Escadas',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Container(
+                  child: Image.asset(
+                    'board.jpg',
+                    height: MediaQuery.of(context).size.height * (2 / 3),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            _restart();
+                          },
+                          child: const Text('Reiniciar'),
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xff333951),
+                              textStyle: GoogleFonts.quicksand(
+                                  fontSize: 24.0, color: Colors.white))),
+                      Image.asset(
+                        'dice$dice1.png',
+                        height: 50,
+                      ),
+                      Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Soma dos dados: $sum'),
+                              Text('Posição do jogador 1: $positionPlayer1'),
+                              Text('Posição do jogador 2: $positionPlayer2'),
+                            ]),
+                      ),
+                      Image.asset(
+                        'dice$dice2.png',
+                        height: 50,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            _play();
+                          },
+                          child: const Text('Jogar'),
+                          style: ElevatedButton.styleFrom(
+                              primary: Color(0xff333951),
+                              textStyle: GoogleFonts.quicksand(
+                                  fontSize: 24.0, color: Colors.white))),
+                    ]),
+              ),
+            ],
           ),
         ),
-      ]),
+      ),
     );
   }
 }
@@ -113,9 +175,12 @@ class WinDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        child: Text(
-      'Jogador $jogador Venceu!',
-      style: TextStyle(fontSize: 32),
+        child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        'Jogador $jogador Venceu!',
+        style: TextStyle(fontSize: 32),
+      ),
     ));
   }
 }
